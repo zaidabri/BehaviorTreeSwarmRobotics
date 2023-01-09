@@ -21,10 +21,10 @@ public:
   }
 };
 
-BT::NodeStatus CheckBattery()
+BT::NodeStatus BatteryLessThan20()
 {
   std::cout << "Battery OK" << std::endl;
-  return BT::NodeStatus::SUCCESS;
+  return BT::NodeStatus::FAILURE;
 }
 
 class GripperInterface
@@ -56,7 +56,7 @@ int main()
 
   factory.registerNodeType<ApproachObject>("ApproachObject");
 
-  factory.registerSimpleCondition("CheckBattery", std::bind(CheckBattery));
+  factory.registerSimpleCondition("BatteryLessThan20", std::bind(BatteryLessThan20));
 
   GripperInterface gripper;
 
