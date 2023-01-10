@@ -1,0 +1,25 @@
+<root>
+    <TreeNodesModel>
+        <Condition ID="BatteryLessThan20"/>
+        <Action ID="DeliverOrder"/>
+        <Action ID="FindPickupStation"/>
+        <Action ID="FindTransferStation"/>
+        <Action ID="GoChargingStation"/>
+        <Action ID="MoveForward"/>
+        <Condition ID="ObstacleFound"/>
+        <Condition ID="OrderAvailable"/>
+        <Action ID="PickOrder"/>
+        <Action ID="RecalculateRoute"/>
+        <Action ID="ReserveOrder">
+            <input_port default="2" name="PickupStation"/>
+        </Action>
+        <Action ID="SendDeliverySignal">
+            <output_port name="ChosenTransferStation"/>
+        </Action>
+        <Action ID="SetStatusAsFree"/>
+        <Action ID="SignalTransferStation">
+            <input_port name="SignalTransferStation"/>
+        </Action>
+    </TreeNodesModel>
+</root>
+
