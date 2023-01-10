@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<root main_tree_to_execute="BehaviorTree">
+    <!-- ////////// -->
+    <BehaviorTree ID="BehaviorTree">
+        <Sequence>
+            <Fallback>
+                <Condition ID="BatteryLessThan20"/>
+                <Action ID="GoChargingStation"/>
+            </Fallback>
+            <Sequence>
+                <Condition ID="OrderAvailable"/>
+                <Action ID="GetOrderStation" OrderStation="{PickupStation}"/>
+                <Action ID="ReserveOrder" PickupStation="{PickupStation}"/>
+            </Sequence>
+            <Sequence>
+                <RetryUntilSuccessful num_attempts="5">
+                    <Action ID="FindPickupStation"/>
+                </RetryUntilSuccessful>
+                <Fallback>
+                    <Sequence>
+                        <Condition ID="ObstacleFound"/>
+                        <Action ID="RecalculateRoute"/>
+                    </Sequence>
+                    <Action ID="MoveForward"/>
+                </Fallback>
+                <Action ID="PickOrder"/>
+            </Sequence>
+            <Sequence>
+                <RetryUntilSuccessful num_attempts="5">
+                    <Action ID="FindTransferStation"/>
+                </RetryUntilSuccessful>
+                <Action ChosenTransferStation="{ChosenTransferStation}" ID="SendDeliverySignal"/>
+                <Fallback>
+                    <Sequence>
+                        <Condition ID="ObstacleFound"/>
+                        <Action ID="RecalculateRoute"/>
+                    </Sequence>
+                    <Action ID="MoveForward"/>
+                </Fallback>
+                <Action ID="DeliverOrder"/>
+                <Action ID="SetStatusAsFree"/>
+            </Sequence>
+        </Sequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <TreeNodesModel>
+        <Condition ID="BatteryLessThan20"/>
+        <Action ID="DeliverOrder"/>
+        <Action ID="FindPickupStation"/>
+        <Action ID="FindTransferStation"/>
+        <Action ID="GetOrderStation">
+            <output_port name="OrderStation"/>
+        </Action>
+        <Action ID="GoChargingStation"/>
+        <Action ID="MoveForward"/>
+        <Condition ID="ObstacleFound"/>
+        <Condition ID="OrderAvailable"/>
+        <Action ID="PickOrder"/>
+        <Action ID="RecalculateRoute"/>
+        <Action ID="ReserveOrder">
+            <input_port name="PickupStation"/>
+        </Action>
+        <Action ID="SendDeliverySignal">
+            <output_port name="ChosenTransferStation"/>
+        </Action>
+        <Action ID="SetStatusAsFree"/>
+    </TreeNodesModel>
+    <!-- ////////// -->
+</root>
+
