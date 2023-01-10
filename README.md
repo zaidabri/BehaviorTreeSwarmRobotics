@@ -1,5 +1,5 @@
 # BehaviorTreeSwarmRobotics
-This is the repository for the Course Project subject at the University of Trento
+This is the repository for the Course Project subject at the University of Trento.
 This demo builds a behavior tree from scratch in C++ using [BehaviorTree.CPP](https://www.behaviortree.dev/) and
 [Groot](https://github.com/BehaviorTree/Groot). This demo aims to show on a high level the the logic followed by a autonomous robot on a swarm robotics environment.
 <img width="1035" alt="image" src="https://user-images.githubusercontent.com/83652632/211656794-f640622a-f061-498b-b6a2-e61a5cf341f8.png">
