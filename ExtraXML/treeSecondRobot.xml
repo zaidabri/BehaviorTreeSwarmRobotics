@@ -12,30 +12,28 @@
                 <RetryUntilSuccessful num_attempts="5">
                     <Action ID="FindPickupStation"/>
                 </RetryUntilSuccessful>
-                <Fallback>
-                    <Sequence>
-                        <Condition ID="ObstacleFound"/>
-                        <Action ID="RecalculateRoute"/>
-                    </Sequence>
-                    <Action ID="MoveForward"/>
-                </Fallback>
+                <SubTree ID="Obstacle"/>
                 <Action ID="PickOrder"/>
             </Sequence>
             <Sequence>
                 <RetryUntilSuccessful num_attempts="5">
                     <Action ID="FindTransferStation"/>
                 </RetryUntilSuccessful>
-                <Fallback>
-                    <Sequence>
-                        <Condition ID="ObstacleFound"/>
-                        <Action ID="RecalculateRoute"/>
-                    </Sequence>
-                    <Action ID="MoveForward"/>
-                </Fallback>
+                <SubTree ID="Obstacle"/>
                 <Action ID="DeliverOrder"/>
                 <Action ID="SetStatusAsFree"/>
             </Sequence>
         </Sequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <BehaviorTree ID="Obstacle">
+        <Fallback>
+            <Sequence>
+                <Condition ID="ObstacleFound"/>
+                <Action ID="RecalculateRoute"/>
+            </Sequence>
+            <Action ID="MoveForward"/>
+        </Fallback>
     </BehaviorTree>
     <!-- ////////// -->
     <TreeNodesModel>
@@ -45,12 +43,13 @@
         <Action ID="FindTransferStation"/>
         <Action ID="GoChargingStation"/>
         <Action ID="MoveForward"/>
+        <SubTree ID="Obstacle"/>
         <Condition ID="ObstacleFound"/>
         <Condition ID="OrderAvailable"/>
         <Action ID="PickOrder"/>
         <Action ID="RecalculateRoute"/>
         <Action ID="ReserveOrder">
-            <input_port default="2" name="PickupStation"/>
+            <input_port name="PickupStation"/>
         </Action>
         <Action ID="SendDeliverySignal">
             <output_port name="ChosenTransferStation"/>
