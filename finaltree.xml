@@ -16,13 +16,7 @@
                 <RetryUntilSuccessful num_attempts="5">
                     <Action ID="FindPickupStation"/>
                 </RetryUntilSuccessful>
-                <Fallback>
-                    <Sequence>
-                        <Condition ID="ObstacleFound"/>
-                        <Action ID="RecalculateRoute"/>
-                    </Sequence>
-                    <Action ID="MoveForward"/>
-                </Fallback>
+                <SubTree ID="Obstacle"/>
                 <Action ID="PickOrder"/>
             </Sequence>
             <Sequence>
@@ -30,17 +24,21 @@
                     <Action ID="FindTransferStation"/>
                 </RetryUntilSuccessful>
                 <Action ChosenTransferStation="{ChosenTransferStation}" ID="SendDeliverySignal"/>
-                <Fallback>
-                    <Sequence>
-                        <Condition ID="ObstacleFound"/>
-                        <Action ID="RecalculateRoute"/>
-                    </Sequence>
-                    <Action ID="MoveForward"/>
-                </Fallback>
+                <SubTree ID="Obstacle"/>
                 <Action ID="DeliverOrder"/>
                 <Action ID="SetStatusAsFree"/>
             </Sequence>
         </Sequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <BehaviorTree ID="Obstacle">
+        <Fallback>
+            <Sequence>
+                <Condition ID="ObstacleFound"/>
+                <Action ID="RecalculateRoute"/>
+            </Sequence>
+            <Action ID="MoveForward"/>
+        </Fallback>
     </BehaviorTree>
     <!-- ////////// -->
     <TreeNodesModel>
@@ -53,6 +51,7 @@
         </Action>
         <Action ID="GoChargingStation"/>
         <Action ID="MoveForward"/>
+        <SubTree ID="Obstacle"/>
         <Condition ID="ObstacleFound"/>
         <Condition ID="OrderAvailable"/>
         <Action ID="PickOrder"/>
